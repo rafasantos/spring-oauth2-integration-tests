@@ -85,4 +85,14 @@ public class HelloControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string("hello again"));
     }
+
+    @Test
+    public void testHelloOauthAuthenticated() throws Exception {
+        RequestPostProcessor bearerToken = authHelper.addBearerToken("test", "SCOPE_USER");
+        ResultActions resultActions = restMvc.perform(post("/hello-oauth").with(bearerToken)).andDo(print());
+
+        resultActions
+                .andExpect(status().isOk())
+                .andExpect(content().string("hello again"));
+    }
 }
